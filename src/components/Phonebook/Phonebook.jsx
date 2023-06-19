@@ -22,7 +22,6 @@ export class Phonebook extends Component {
   };
 
   SaveContacts = () => {
-    localStorage.clear();
     localStorage.setItem('contacts', JSON.stringify(this.state.contacts));
   };
   componentDidUpdate() {
