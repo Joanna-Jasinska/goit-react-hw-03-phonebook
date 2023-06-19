@@ -1,0 +1,77 @@
+.phonebook {
+  box-shadow: var(--box-shadow);
+  background-color: var(--bg-regular);
+  margin: var(--margin-component);
+  padding: var(--margin-component);
+  padding: var(--margin-component) var(--margin-component) 0.5em
+    var(--margin-component);
+  border: var(--border);
+  border-radius: var(--border-radius);
+}
+.card {
+  box-shadow: var(--box-shadow-inset);
+  margin: var(--margin-component);
+  border: var(--border-inset);
+  border-radius: var(--border-radius);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 20px;
+  padding: 0.6em;
+}
+.label {
+  display: block;
+  margin: var(--margin-component);
+}
+.button {
+  display: block;
+  margin: var(--margin-component);
+  border: var(--border);
+  border-radius: var(--border-radius);
+  box-shadow: var(--box-shadow);
+  padding: 0.3em 0.6em;
+  transition-duration: var(--duration-short);
+  background-color: var(--bg-regular);
+}
+.button:hover {
+  transform: var(--scale-small);
+  background-color: var(--bg-highlighted);
+}
+.input {
+  box-shadow: var(--box-shadow-inset);
+  border: var(--border-inset);
+  border-radius: var(--border-radius);
+  margin: var(--margin-component);
+  margin-bottom: 1em;
+  padding: 0.3em 0.6em;
+}
+.input:hover,
+.input:active,
+.input:focus {
+  /* border-color: var(--bg-highlighted); */
+  outline: var(--border-inset);
+  outline-color: var(--bg-highlighted);
+  /* transform: var(--scale-small); */
+}
+.contacts {
+  margin-left: 0.5em;
+}
+.list {
+  margin: var(--margin-component);
+  padding: 0.3em 1.2em;
+}
+.entry {
+}
+.title {
+  margin: 0.4em 0.2em 0.3em 0.2em;
+}
+.delete {
+  display: inline;
+  position: relative;
+  left: 0;
+  top: -2px;
+  /* margin-left: 0.3em; */
+  transform: scale(0.82);
+}
+/* .add() {
+} */
