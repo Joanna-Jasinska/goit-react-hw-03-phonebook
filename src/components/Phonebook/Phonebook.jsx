@@ -9,9 +9,9 @@ export class Phonebook extends Component {
     super();
     this.state = {
       contacts: [...contacts],
-      ...{ name },
-      ...{ number },
-      ...{ filter },
+      name,
+      number,
+      filter,
     };
   }
   static defaultProps = {
@@ -27,21 +27,10 @@ export class Phonebook extends Component {
   componentDidUpdate() {
     this.SaveContacts();
   }
+
   Title = ({ title }) => <h2 className={css.title}>{title}</h2>;
 
-  filterContacts = filter => {
-    return this.state.contacts.filter(
-      el =>
-        el.name.toLowerCase().includes(filter.toLowerCase()) ||
-        el.number
-          .toLowerCase()
-          .trim()
-          .replace(/ |-/g, '')
-          .includes(filter.toLowerCase().trim().replace(/ |-/g, ''))
-    );
-  };
   addContactHandle = (e, newContact) => {
-    console.log(`clicked e, newcontact, Phonebook.this.state:`);
     e.preventDefault();
     const filtered =
       this.state.contacts.find(
@@ -69,25 +58,19 @@ export class Phonebook extends Component {
       ...prev,
       contacts: [...prev.contacts, { ...newContact }],
     }));
+
     this.setState({ name: '', number: '', filter: '' });
-    console.log(this.state);
   };
   deleteContactHandle = (e, contact) => {
-    console.log(`clicked delete, Phonebook.this.state:`);
     e.preventDefault();
     this.setState(prev => {
-      console.log(`to be deleted contact:`);
-      console.log(contact);
       return {
         contacts: [...prev.contacts.filter(c => c.id !== contact.id)],
       };
     });
-    console.log(this.state);
   };
   inputOnChange = e => {
     this.setState({ [e.target.name]: e.target.value });
-    console.log('Input change Phonebook.this.state:');
-    console.log(this.state);
   };
 
   render() {
@@ -95,23 +78,23 @@ export class Phonebook extends Component {
       <div className={css.phonebook}>
         <this.Title title="Phonebook" />
         <ContactForm
-          {...this.state}
+          name={this.state.name}
+          number={this.state.number}
           addContactHandle={this.addContactHandle}
           inputOnChange={this.inputOnChange}
         />
 
         <this.Title title="Contacts" />
         <ContactList
-          {...this.state}
+          contacts={this.state.contacts}
+          filter={this.state.filter}
           inputOnChange={this.inputOnChange}
           deleteContactHandle={this.deleteContactHandle}
-          filterContacts={this.filterContacts}
         />
       </div>
     );
   }
 }
-// { contacts, name, number, filter }
 ContactList.propTypes = {
   contacts: PropTypes.arrayOf(
     PropTypes.shape({

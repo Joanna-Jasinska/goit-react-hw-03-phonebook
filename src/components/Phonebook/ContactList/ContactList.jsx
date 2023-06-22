@@ -4,11 +4,23 @@ import PropTypes from 'prop-types';
 import css from './../Phonebook.module.css';
 
 export class ContactList extends Component {
+  filterContacts = (filter, contacts) => {
+    return contacts.filter(
+      el =>
+        el.name.toLowerCase().includes(filter.toLowerCase()) ||
+        el.number
+          .toLowerCase()
+          .trim()
+          .replace(/ |-/g, '')
+          .includes(filter.toLowerCase().trim().replace(/ |-/g, ''))
+    );
+  };
   Entry = ({ name, number, id }) => {
     return (
-      <li className={css.entry} key={`${id}`} id={id}>
+      <li className={css.entry} id={id}>
         {name + ': ' + number}
         <button
+          key={`${name}${number}btn${id}`}
           className={`${css.button} ${css.delete}`}
           type="button"
           onClick={e => this.props.deleteContactHandle(e, { name, number, id })}
@@ -33,28 +45,40 @@ export class ContactList extends Component {
           value={this.props.filter}
           title="Will show only contacts that match search quota written here."
         />
-        <button
-          className={`${css.button} ${css.delete}`}
-          type="button"
-          onClick={e =>
-            this.props.inputOnChange({
-              target: { name: 'filter', value: '' },
-            })
-          }
-        >
-          Clear
-        </button>
+        {this.props.filter ? (
+          <button
+            className={`${css.button} ${css.delete}`}
+            type="button"
+            onClick={e =>
+              this.props.inputOnChange({
+                target: { name: 'filter', value: '' },
+              })
+            }
+          >
+            Clear
+          </button>
+        ) : (
+          ''
+        )}
         <ul className={css.list}>
-          {this.props.filterContacts(this.props.filter).map(el => {
-            return <this.Entry name={el.name} number={el.number} id={el.id} />;
-          })}
+          {this.filterContacts(this.props.filter, this.props.contacts).map(
+            el => {
+              return (
+                <this.Entry
+                  name={el.name}
+                  number={el.number}
+                  id={`${el.id}`}
+                  key={`entry${el.id}`}
+                />
+              );
+            }
+          )}
         </ul>
       </div>
     );
   }
 }
 
-// { contacts, filter, inputOnChange, deleteContactHandle }
 ContactList.propTypes = {
   contacts: PropTypes.arrayOf(
     PropTypes.shape({

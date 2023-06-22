@@ -54,7 +54,6 @@ export class ContactForm extends Component {
   }
 }
 
-// { name, number, addContactHandle, inputOnChange }
 ContactForm.propTypes = {
   name: PropTypes.string.isRequired,
   number: PropTypes.string.isRequired,
