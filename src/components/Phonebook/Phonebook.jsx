@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { ContactForm } from './ContactForm/ContactForm';
 import { ContactList } from './ContactList/ContactList';
+import { Title } from './Title/Title';
 import css from './Phonebook.module.css';
 
 export class Phonebook extends Component {
@@ -24,11 +25,14 @@ export class Phonebook extends Component {
   SaveContacts = () => {
     localStorage.setItem('contacts', JSON.stringify(this.state.contacts));
   };
+  componentDidMount() {
+    const loadedContacts = JSON.parse(localStorage.getItem('contacts'));
+    const LOAD = loadedContacts ? { contacts: [...loadedContacts] } : {};
+    this.setState({ ...this.props, ...LOAD });
+  }
   componentDidUpdate() {
     this.SaveContacts();
   }
-
-  Title = ({ title }) => <h2 className={css.title}>{title}</h2>;
 
   addContactHandle = (e, newContact) => {
     e.preventDefault();
@@ -76,7 +80,7 @@ export class Phonebook extends Component {
   render() {
     return (
       <div className={css.phonebook}>
-        <this.Title title="Phonebook" />
+        <Title title="Phonebook" />
         <ContactForm
           name={this.state.name}
           number={this.state.number}
@@ -84,7 +88,7 @@ export class Phonebook extends Component {
           inputOnChange={this.inputOnChange}
         />
 
-        <this.Title title="Contacts" />
+        <Title title="Contacts" />
         <ContactList
           contacts={this.state.contacts}
           filter={this.state.filter}
@@ -95,7 +99,7 @@ export class Phonebook extends Component {
     );
   }
 }
-ContactList.propTypes = {
+Phonebook.propTypes = {
   contacts: PropTypes.arrayOf(
     PropTypes.shape({
       name: PropTypes.string.isRequired,
